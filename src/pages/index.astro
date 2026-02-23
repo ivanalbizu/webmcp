@@ -1,0 +1,141 @@
+---
+import { MODELS as IPHONE_MODELS } from '../webmcp/iphone-configurator';
+import { MODELS as MACBOOK_MODELS } from '../webmcp/macbook-configurator';
+
+const iphones = [
+  { key: 'iphone15',       img: 'https://placehold.co/300x400/5C5B57/ffffff?text=iPhone+15' },
+  { key: 'iphone15pro',    img: 'https://placehold.co/300x400/5C5B57/ffffff?text=iPhone+15+Pro' },
+  { key: 'iphone15promax', img: 'https://placehold.co/300x400/5C5B57/ffffff?text=iPhone+15+Pro+Max' },
+];
+
+const macbooks = [
+  { key: 'macbookAir13',  img: 'https://placehold.co/300x200/6E6E73/ffffff?text=MacBook+Air+13' },
+  { key: 'macbookAir15',  img: 'https://placehold.co/300x200/6E6E73/ffffff?text=MacBook+Air+15' },
+  { key: 'macbookPro14',  img: 'https://placehold.co/300x200/6E6E73/ffffff?text=MacBook+Pro+14' },
+  { key: 'macbookPro16',  img: 'https://placehold.co/300x200/6E6E73/ffffff?text=MacBook+Pro+16' },
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>WebMCP — Catálogo Apple</title>
+  </head>
+  <body>
+    <main>
+      <h1>Catálogo Apple</h1>
+      <p class="subtitle">Elige un producto para configurarlo con WebMCP</p>
+
+      <h2 class="section-title">iPhone</h2>
+      <div class="product-grid">
+        {iphones.map((p) => {
+          const model = IPHONE_MODELS[p.key];
+          return (
+            <a href={`/iphone?model=${p.key}`} class="product-card">
+              <img src={p.img} alt={model.title} />
+              <h3>{model.title}</h3>
+              <p class="price">Desde {model.basePrice.toLocaleString('es-ES')} €</p>
+            </a>
+          );
+        })}
+      </div>
+
+      <h2 class="section-title">MacBook</h2>
+      <div class="product-grid">
+        {macbooks.map((p) => {
+          const model = MACBOOK_MODELS[p.key];
+          return (
+            <a href={`/macbook?model=${p.key}`} class="product-card">
+              <img src={p.img} alt={model.title} class="macbook-img" />
+              <h3>{model.title}</h3>
+              <p class="price">Desde {model.basePrice.toLocaleString('es-ES')} €</p>
+            </a>
+          );
+        })}
+      </div>
+    </main>
+  </body>
+</html>
+
+<style>
+  body {
+    font-family: system-ui, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #fafafa;
+  }
+
+  main {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 0.25rem;
+  }
+
+  .subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 3rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #eee;
+  }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .product-card {
+    background: white;
+    border-radius: 20px;
+    padding: 1.5rem;
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  .product-card img {
+    width: 100%;
+    max-width: 180px;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+  }
+
+  .product-card .macbook-img {
+    max-width: 240px;
+    border-radius: 8px;
+  }
+
+  .product-card h3 {
+    font-size: 1.15rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .product-card .price {
+    color: #666;
+    font-size: 0.95rem;
+  }
+</style>

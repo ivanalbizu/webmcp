@@ -1,0 +1,42 @@
+---
+import IphoneSelector from "../components/IphoneSelector.astro";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Configurador iPhone — WebMCP</title>
+  </head>
+  <body>
+    <nav>
+      <a href="/">← Volver al catálogo</a>
+    </nav>
+    <IphoneSelector />
+  </body>
+</html>
+
+<style>
+  body {
+    font-family: system-ui, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  nav {
+    padding: 1rem 2rem;
+  }
+
+  nav a {
+    color: #0071e3;
+    text-decoration: none;
+    font-size: 0.95rem;
+  }
+
+  nav a:hover {
+    text-decoration: underline;
+  }
+</style>

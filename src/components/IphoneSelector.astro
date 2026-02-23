@@ -1,0 +1,131 @@
+---
+import ChatPanel from './ChatPanel.astro';
+---
+
+<section class="product-container">
+  <div class="status-bar">
+    <small id="mcp-status">Comprobando API...</small>
+  </div>
+
+  <div class="iphone-layout">
+    <div class="image-wrapper">
+      <img
+        id="iphone-img"
+        src="https://placehold.co/300x600/5C5B57/ffffff?text=iPhone+Natural"
+        alt="iPhone 15 Pro"
+      />
+    </div>
+
+    <div class="details">
+      <h1 id="model-title">iPhone 15 Pro</h1>
+      <p class="price" id="price-display">Desde 1.219 €</p>
+
+      <div class="selector">
+        <p>Modelo:</p>
+        <div class="model-options">
+          <button class="model-btn" data-model="iphone15">iPhone 15</button>
+          <button class="model-btn selected" data-model="iphone15pro">iPhone 15 Pro</button>
+          <button class="model-btn" data-model="iphone15promax">iPhone 15 Pro Max</button>
+        </div>
+      </div>
+
+      <div class="selector">
+        <p>Color: <strong id="color-name">Titanio Natural</strong></p>
+        <div class="color-options">
+          <button class="color-btn selected" data-hex="#5C5B57" data-name="Titanio Natural" style="background-color: #5C5B57"></button>
+          <button class="color-btn" data-hex="#2F333A" data-name="Titanio Azul" style="background-color: #2F333A"></button>
+          <button class="color-btn" data-hex="#F2F1EB" data-name="Titanio Blanco" style="background-color: #F2F1EB"></button>
+          <button class="color-btn" data-hex="#181819" data-name="Titanio Negro" style="background-color: #181819"></button>
+        </div>
+      </div>
+
+      <div class="selector">
+        <p>Capacidad: <strong id="capacity-name">256 GB</strong></p>
+        <div class="capacity-options">
+          <button class="capacity-btn" data-capacity="128">128 GB</button>
+          <button class="capacity-btn selected" data-capacity="256">256 GB</button>
+          <button class="capacity-btn" data-capacity="512">512 GB</button>
+          <button class="capacity-btn" data-capacity="1024">1 TB</button>
+        </div>
+      </div>
+
+      <div id="order-confirmation" style="display:none;">
+        <p>✅ <strong id="order-summary"></strong></p>
+      </div>
+
+      <p id="ai-response"></p>
+      <div id="tool-log"></div>
+    </div>
+  </div>
+</section>
+
+<ChatPanel />
+
+<style>
+  .product-container { max-width: 900px; margin: 0 auto; padding: 2rem; font-family: system-ui, sans-serif; }
+  .status-bar { text-align: center; margin-bottom: 2rem; color: #666; }
+
+  .iphone-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+
+  .image-wrapper img { width: 100%; max-width: 320px; border-radius: 40px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); display: block; margin: 0 auto; transition: opacity 0.3s; }
+
+  .details h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+  .price { font-size: 1.25rem; color: #666; margin-bottom: 2rem; }
+
+  .color-options { display: flex; gap: 1rem; margin-top: 0.5rem; }
+  .color-btn { width: 40px; height: 40px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; transition: transform 0.2s; }
+  .color-btn:hover { transform: scale(1.1); }
+  .color-btn.selected { border-color: #0071e3; padding: 3px; background-clip: content-box; }
+
+  .selector { margin-bottom: 1.5rem; }
+  .selector > p { margin-bottom: 0.5rem; }
+
+  .model-options { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .model-btn { padding: 0.5rem 1rem; border: 2px solid #ddd; border-radius: 12px; background: white; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; }
+  .model-btn:hover { border-color: #999; }
+  .model-btn.selected { border-color: #0071e3; background: #f0f7ff; font-weight: bold; }
+
+  .capacity-options { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .capacity-btn { padding: 0.5rem 1rem; border: 2px solid #ddd; border-radius: 12px; background: white; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; }
+  .capacity-btn:hover { border-color: #999; }
+  .capacity-btn.selected { border-color: #0071e3; background: #f0f7ff; font-weight: bold; }
+
+  #order-confirmation { margin-top: 1.5rem; padding: 1rem; background: #f0fdf4; border: 2px solid #22c55e; border-radius: 12px; }
+  #order-confirmation p { margin: 0; color: #166534; }
+
+  #ai-response { margin-top: 2rem; color: #666; font-style: italic; min-height: 1.2em; }
+  #tool-log { margin-top: 1rem; font-size: 0.85rem; color: #888; }
+  #tool-log .log-entry { padding: 0.25rem 0; border-bottom: 1px solid #eee; }
+  #tool-log .log-entry .log-time { color: #aaa; margin-right: 0.5rem; }
+</style>
+
+<script>
+  import { initConfigurator } from '../webmcp/iphone-configurator';
+  import { initChat } from '../webmcp/chat';
+
+  const params = new URLSearchParams(window.location.search);
+  const initialModel = params.get('model') || undefined;
+
+  const { tools } = initConfigurator({
+    status: document.getElementById('mcp-status'),
+    img: document.getElementById('iphone-img') as HTMLImageElement | null,
+    modelTitle: document.getElementById('model-title'),
+    priceDisplay: document.getElementById('price-display'),
+    colorLabel: document.getElementById('color-name'),
+    capacityLabel: document.getElementById('capacity-name'),
+    responseEl: document.getElementById('ai-response'),
+    toolLog: document.getElementById('tool-log'),
+    orderConfirmation: document.getElementById('order-confirmation'),
+    orderSummary: document.getElementById('order-summary'),
+  }, { initialModel });
+
+  initChat({
+    messages: document.getElementById('chat-messages')!,
+    input: document.getElementById('chat-input') as HTMLInputElement,
+    sendBtn: document.getElementById('chat-send') as HTMLButtonElement,
+    status: document.getElementById('chat-status')!,
+  }, {
+    productName: 'iPhone',
+    tools,
+  });
+</script>

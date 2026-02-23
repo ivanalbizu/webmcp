@@ -1,0 +1,21 @@
+{
+  "name": "webmcp",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "test": "playwright test --project=chromium",
+    "test:headed": "playwright test --project=chromium --headed",
+    "test:canary": "playwright test --project=canary --headed"
+  },
+  "dependencies": {
+    "astro": "^5.17.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@types/node": "^25.3.0"
+  }
+}
